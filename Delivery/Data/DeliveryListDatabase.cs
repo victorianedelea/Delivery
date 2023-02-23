@@ -15,6 +15,9 @@ namespace Delivery.Data
         {
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<DeliveryList>().Wait();
+            _database.CreateTableAsync<Colet>().Wait();
+            _database.CreateTableAsync<ListColet>().Wait();
+
         }
         public Task<List<DeliveryList>> GetDeliveryListsAsync()
         {
@@ -41,6 +44,52 @@ namespace Delivery.Data
         {
             return _database.DeleteAsync(slist);
         }
+
+        public Task<int> SaveColetAsync(Colet colet)
+        {
+            if (colet.ID != 0)
+            {
+                return _database.UpdateAsync(colet);
+            }
+            else
+            {
+                return _database.InsertAsync(colet);
+            }
+        }
+        public Task<int> DeleteColetAsync(Colet colet)
+        {
+            return _database.DeleteAsync(colet);
+        }
+        public Task<List<Colet>> GetColeteAsync()
+        {
+            return _database.Table<Colet>().ToListAsync();
+        }
+
+        public Task<int> SaveListColetAsync(ListColet listc)
+        {
+            if (listc.ID != 0)
+            {
+                return _database.UpdateAsync(listc);
+            }
+            else
+            {
+                return _database.InsertAsync(listc);
+            }
+        }
+        public Task<List<Colet>> GetListColeteAsync(int deliverylistid)
+        {
+            return _database.QueryAsync<Colet>(
+            "select C.ID, C.Description from Colet C"
+            + " inner join ListColet LC"
+            + " on C.ID = LC.ColetID where LC.DeliveryListID = ?",
+            deliverylistid);
+        }
+
+
     }
 }
+
+
+    
+
             

@@ -4,10 +4,10 @@ namespace Delivery;
 
 public partial class ListPage : ContentPage
 {
-	public ListPage()
-	{
-		InitializeComponent();
-	}
+    public ListPage()
+    {
+        InitializeComponent();
+    }
 
     async void OnSaveButtonClicked(object sender, EventArgs e)
     {
@@ -21,6 +21,24 @@ public partial class ListPage : ContentPage
         var slist = (DeliveryList)BindingContext;
         await App.Database.DeleteDeliveryListAsync(slist);
         await Navigation.PopAsync();
+    }
+    async void OnChooseButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ColetPage((DeliveryList)
+       this.BindingContext)
+        {
+            BindingContext = new Colet()
+        });
+
+    }
+
+   
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var deliveyl = (DeliveryList)BindingContext;
+
+        listView.ItemsSource = await App.Database.GetListColeteAsync(deliveyl.ID);
     }
 
 }
