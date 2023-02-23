@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Delivery.Models
 {
@@ -14,5 +15,7 @@ namespace Delivery.Models
         [MaxLength(250), Unique]
         public string Description { get; set; }
         public DateTime Date { get; set; }
+        [ForeignKey(typeof(DeliveryD))]
+        public int DeliveryID { get; set; }
     }
 }

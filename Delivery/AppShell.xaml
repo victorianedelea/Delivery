@@ -19,7 +19,13 @@
         <ShellContent
               Title="My Delivery Lists"
               ContentTemplate="{DataTemplate local:ListEntryPage}"
+              />
+
+        <ShellContent
+              Title="My Delivery"
+              ContentTemplate="{DataTemplate local:DeliveryEntryPage}"
  />
+      
     </TabBar>
 
 </Shell>

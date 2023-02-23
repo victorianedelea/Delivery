@@ -17,6 +17,7 @@ namespace Delivery.Data
             _database.CreateTableAsync<DeliveryList>().Wait();
             _database.CreateTableAsync<Colet>().Wait();
             _database.CreateTableAsync<ListColet>().Wait();
+            _database.CreateTableAsync<DeliveryD>().Wait();
 
         }
         public Task<List<DeliveryList>> GetDeliveryListsAsync()
@@ -84,6 +85,23 @@ namespace Delivery.Data
             + " on C.ID = LC.ColetID where LC.DeliveryListID = ?",
             deliverylistid);
         }
+
+        public Task<List<DeliveryD>> GetDeliveriesAsync()
+        {
+            return _database.Table<DeliveryD>().ToListAsync();
+        }
+        public Task<int> SaveDeliveryAsync(DeliveryD delivery)
+        {
+            if (delivery.ID != 0)
+            {
+                return _database.UpdateAsync(delivery);
+            }
+            else
+            {
+                return _database.InsertAsync(delivery);
+            }
+        }
+
 
 
     }
